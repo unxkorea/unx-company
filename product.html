@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNX | Global Branding Partnerships</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="./resources/common/favicon.ico" type="image/x-icon">
+    <!-- Tailwind CSS CDN -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <!-- Google Fonts - Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #0a0a0a;
+            overflow-x: hidden;
+        }
+         .font-orbitron { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            /* letter-spacing: -0.02em; */
+        } 
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        /* 제품 카드 호버 애니메이션 */
+        .product-card {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+        }
+        .product-card img {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .text-point { color: rgb(8, 145, 178); }
+        .bg-point { background-color: rgb(8, 145, 178); }
+        
+        /* Hero Overlay: 가독성을 위해 투명도 강화 */
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.5) 100%);
+        }
+
+        #mobile-menu {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-20px);
+            visibility: hidden;
+        }
+        #mobile-menu.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        @keyframes subtle-zoom {
+            from { transform: scale(1.05); }
+            to { transform: scale(1.1); }
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+        }
+        .modal-content-container {
+            max-width: 1050px;
+            width: 100%; 
+            max-height: 90vh;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content-container {
+                max-width: 500px;
+                /* height: 96vh; description 영역 확보를 위해 전체 높이 상향 (80vh -> 96vh) */
+                max-height: 96vh;
+            }
+        }
+
+        /* Custom Scrollbar for Modal Info Area */
+        .modal-scroll-area::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal-scroll-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .modal-scroll-area::-webkit-scrollbar-thumb {
+            background: #e4e4e7;
+            border-radius: 10px;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
+    "react/": "https://esm.sh/react@^19.2.4/"
+  }
+}
+</script>
+</head>
+<body class="selection:bg-cyan-500 selection:text-white">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 md:py-8 bg-transparent">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between w-full">
+                <div class="flex items-center space-x-2 cursor-pointer shrink-0" onclick="location.href='index.html'">
+                    <div class="w-8 h-8 bg-gradient-to-tr from-cyan-400 to-indigo-600 rounded-sm transform rotate-45 shadow-sm"></div>
+                    <span class="font-orbitron text-2xl font-black tracking-tighter text-black uppercase">UNX</span>
+                </div>
+                
+                <div class="hidden md:flex flex-1 justify-center items-center space-x-8 lg:space-x-12 text-sm font-orbitron font-bold tracking-widest uppercase text-zinc-700">
+                    <a href="index.html#home" class="hover:text-cyan-600 transition-colors uppercase">Home</a>
+                    <a href="index.html#vision" class="hover:text-cyan-600 transition-colors uppercase">Vision</a>
+                    <a href="index.html#services" class="hover:text-cyan-600 transition-colors uppercase">Why UNX?</a>
+                    <a href="index.html#partners" class="hover:text-cyan-600 transition-colors uppercase">Partners</a>
+                    <a href="index.html#contact" class="hover:text-cyan-600 transition-colors uppercase">Contact</a>
+                    <a href="product.html" class="px-6 py-2.5 bg-black text-white font-orbitron text-sm font-bold hover:bg-cyan-600 transition-all duration-300 shadow-lg block uppercase" style="letter-spacing: -0.02em">PRODUCT</a>
+                </div>
+
+                <div class="hidden md:block w-32"></div>
+
+                <button id="menu-btn" class="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none z-[60]">
+                    <span class="block w-6 h-0.5 bg-black transition-all"></span>
+                    <span class="block w-6 h-0.5 bg-black transition-all"></span>
+                    <span class="block w-6 h-0.5 bg-black transition-all"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-[55] flex flex-col items-center justify-center space-y-8 px-6 md:hidden">
+        <button id="close-menu-btn" class="absolute top-8 right-6 p-2 text-black hover:text-cyan-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <a href="index.html#home" class="text-3xl font-orbitron font-extrabold text-zinc-900 uppercase">Home</a>
+        <a href="index.html#vision" class="text-3xl font-orbitron font-extrabold text-zinc-900 uppercase">Vision</a>
+        <a href="index.html#services" class="text-3xl font-orbitron font-extrabold text-zinc-900 uppercase">Why UNX?</a>
+        <a href="index.html#partners" class="text-3xl font-orbitron font-extrabold text-zinc-900 uppercase">Partners</a>
+        <a href="index.html#contact" class="text-3xl font-orbitron font-extrabold text-zinc-900 uppercase">Contact</a>
+        <div class="pt-8"><a href="product.html" class="px-10 py-4 bg-black text-white font-orbitron font-bold text-sm tracking-widest rounded-full uppercase shadow-2xl">PRODUCT CATALOG</a></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-[65vh] md:h-[70vh] w-full flex items-center justify-center overflow-hidden mt-20 md:mt-24">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover scale-105 animate-[subtle-zoom_20s_infinite_alternate] brightness-75" alt="Background">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-6 max-w-5xl">
+            <p class="font-orbitron text-cyan-400 text-sm tracking-[0.4em] uppercase mb-8 font-extrabold drop-shadow-md">
+                WISH YOUR BUSINESS SUCCESS.
+            </p>
+            <h1 class="text-white text-5xl md:text-7xl font-extrabold mb-6 tracking-tight leading-tight uppercase drop-shadow-lg">
+                시간을 절약하는 가치 있는 경험
+            </h1>
+            <h2 class="text-white/95 text-3xl md:text-5xl font-extrabold tracking-tight mb-12 uppercase drop-shadow-md">
+                언엑스 공동구매
+            </h2>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+    </section>
+
+    <!-- Dynamic Products List Section -->
+    <section id="products" class="py-32 bg-white relative z-10 border-t border-zinc-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-24 max-w-3xl mx-auto">
+                <div class="inline-block px-5 py-2 border border-cyan-100 bg-cyan-50/50 mb-8 rounded-full">
+                    <span class="font-orbitron text-cyan-600 text-[10px] md:text-xs tracking-[0.4em] uppercase font-black">UNX Premium Curation</span>
+                </div>
+                <h2 class="text-4xl md:text-6xl font-black text-black mb-8 tracking-tighter uppercase">진행중인 제품 소개</h2>
+                <p class="text-zinc-500 font-light text-xl leading-relaxed break-keep max-w-2xl mx-auto">
+                    UNX가 직접 검증하고 제안하는<br/>혁신적인 라이프스타일 브랜드 라인업입니다.
+                </p>
+                <div class="w-20 h-1.5 bg-black mx-auto mt-12 rounded-full"></div>
+            </div>
+
+            <div id="dynamic-products-container"></div>
+            
+            <div class="mt-40 p-12 md:p-20 bg-zinc-900 rounded-[3rem] text-center relative overflow-hidden shadow-2xl">
+                <div class="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(6,182,212,0.15),transparent_50%)]"></div>
+                <div class="relative z-10">
+                    <h4 class="font-orbitron text-white text-3xl md:text-5xl font-black mb-10 tracking-tight uppercase">혁신적인 파트너십의 시작</h4>
+                    <p class="text-zinc-400 text-lg md:text-xl mb-14 max-w-2xl mx-auto font-light leading-relaxed">
+                        UNX의 차별화된 제품군과 함께 글로벌 시장의 리더로 성장하십시오.<br/>우리는 당신의 비즈니스 성공을 위해 존재합니다.
+                    </p>
+                    <button onclick="location.href='index.html#contact'" class="inline-block px-14 py-6 bg-cyan-500 text-white font-orbitron font-black text-xs tracking-[0.3em] rounded-2xl hover:bg-cyan-400 transition-all shadow-2xl shadow-cyan-500/40 transform active:scale-95 uppercase">
+                        지금 문의하기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-16 border-t border-zinc-100">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16 text-left">
+                <div class="col-span-2 flex flex-col items-start space-y-4">
+                    <span class="font-orbitron text-2xl font-black uppercase tracking-tighter">UNX</span>
+                    <p class="text-zinc-400 text-xs md:text-sm font-light max-w-sm leading-relaxed">Global Branding & Partnership Platform</p>
+                </div>
+                <div>
+                    <ul class="space-y-4 text-zinc-500 text-xs md:text-sm font-light uppercase tracking-tight">
+                        <li><a href="index.html#home" class="hover:text-cyan-600 transition-colors whitespace-nowrap">Home</a></li>
+                        <li><a href="index.html#vision" class="hover:text-cyan-600 transition-colors whitespace-nowrap">Vision</a></li>
+                        <li><a href="index.html#services" class="hover:text-cyan-600 transition-colors whitespace-nowrap">Why UNX?</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="space-y-4 text-zinc-500 text-xs md:text-sm font-light uppercase tracking-tight">
+                        <li><a href="index.html#partners" class="hover:text-cyan-600 transition-colors whitespace-nowrap">Partners</a></li>
+                        <li><a href="index.html#contact" class="hover:text-cyan-600 transition-colors whitespace-nowrap">Contact</a></li>
+                        <li><a href="product.html" class="hover:text-cyan-600 transition-colors">Product</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-12 border-t border-zinc-50 space-y-4">
+                <div class="flex flex-wrap gap-x-8 gap-y-2 text-[11px] text-zinc-500 font-light leading-relaxed">
+                    <span>회사명 : 언디파이언스(주)</span>
+                    <span>대표자 : 차민지</span>
+                    <span>주소 : 경기 안양시 동안구 엘에스로116번길 91 815호</span>
+                    <span>이메일 : unx.korea@gmail.com</span>
+                    <span>사업자등록번호 : 810-88-03227</span>
+                    <span>통신판매업신고 : 2024-경기김포-6708 </span>
+                </div>
+                <div class="text-[10px] text-zinc-400 font-orbitron tracking-[0.2em] uppercase font-bold">
+                    <p>COPYRIGHT(c) 2026 언디파이언스(주) ALL RIGHTS RESERVED.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Details Modal -->
+    <div id="product-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 modal-overlay" onclick="closeProductModal()"></div>
+        
+        <!-- Modal Position Wrapper -->
+        <div class="relative w-full max-w-[1050px] flex items-center justify-center h-full">
+            
+            <!-- Navigation Buttons -->
+            <button id="modal-prev-btn" onclick="changeProduct(-1)" class="absolute left-2 md:-left-16 lg:-left-20 top-1/2 -translate-y-1/2 text-white hover:text-cyan-400 z-10 bg-black/20 hover:bg-black/40 rounded-full p-2 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="modal-next-btn" onclick="changeProduct(1)" class="absolute right-2 md:-right-16 lg:-right-20 top-1/2 -translate-y-1/2 text-white hover:text-cyan-400 z-10 bg-black/20 hover:bg-black/40 rounded-full p-2 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            <!-- Box Wrapper for Close Button + Modal Box -->
+            <div class="relative w-[95%] md:w-full max-w-[1050px]">
+                <!-- Close Button (Always top-right OUTSIDE the box) -->
+                <button id="close-modal-btn" onclick="closeProductModal()" class="absolute -top-12 right-0 text-white hover:text-cyan-400 z-[210] p-2 transition-transform hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <!-- Modal Content Container -->
+                <div class="modal-content-container shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col md:flex-row h-full md:h-[700px] overflow-hidden">
+                    
+                    <!-- (Mobile Only Header) -->
+                    <div id="mobile-header" class="md:hidden py-1 px-3 flex items-center space-x-2 border-b border-zinc-100 bg-white shrink-0">
+                        <div class="w-7 h-7 rounded-full border border-zinc-100 overflow-hidden shrink-0">
+                            <img src="resources/common/unx-logo.jpg" class="w-full h-full object-cover" alt="UNX">
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <p class="font-bold text-zinc-900 leading-none" style="font-size: 14px;">unx official</p>
+                        </div>
+                    </div>
+
+                    <!-- Image Area: Increased height on mobile to 36vh (1.5x of 24vh) -->
+                    <div class="w-full h-[36vh] md:h-full md:w-[60%] lg:w-[65%] bg-[#f8f8f8] flex items-center justify-center overflow-hidden shrink-0 md:shrink">
+                        <img id="modal-product-img" src="" alt="" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- Info Area -->
+                    <div class="w-full md:w-[40%] lg:w-[35%] bg-white flex flex-col border-l border-zinc-50 flex-grow overflow-hidden md:h-full">
+                        
+                        <!-- PC Only Header -->
+                        <div id="pc-header" class="hidden md:flex p-3 items-center space-x-3 border-b border-zinc-100 shrink-0">
+                            <div class="w-14 h-14 rounded-full border border-zinc-100 overflow-hidden shrink-0">
+                                <img src="resources/common/unx-logo.jpg" class="w-full h-full object-cover" alt="UNX">
+                            </div>
+                            <div>
+                                <p class="font-bold text-zinc-900 leading-none" style="font-size: 15px;">unx official</p>
+                            </div>
+                        </div>
+
+                        <!-- Scrollable Body (모바일에서 이 영역이 flex-grow를 통해 길어집니다) -->
+                        <div class="px-6 pt-4 pb-3 md:p-8 flex-grow overflow-y-auto modal-scroll-area flex flex-col">
+                            <p id="modal-company-name-tag" class="text-xs font-bold text-cyan-600 uppercase tracking-widest mb-0.5 md:mb-3"></p>
+                            <h3 id="modal-product-name" class="text-[1.2rem] md:text-3xl font-black text-zinc-900 mb-2 md:mb-6 tracking-tight leading-tight"></h3>
+                            
+                            <div class="hidden md:block w-8 h-[2px] bg-cyan-500 mb-8"></div>
+                            
+                            <!-- Description 영역이 flex-grow를 통해 공간을 채웁니다 -->
+                            <div id="modal-description-text" class="text-zinc-600 font-light text-base leading-normal md:leading-relaxed break-keep space-y-4 mb-4 flex-grow">
+                                <!-- Description text injected here -->
+                            </div>
+
+                            <!-- HashTag Area -->
+                            <div id="modal-hashtags" class="text-blue-600 font-medium text-sm md:text-base leading-relaxed flex flex-wrap gap-2">
+                                <!-- Hashtags if needed -->
+                            </div>
+                        </div>
+
+                        <!-- Footer Action (PC Only Button) -->
+                        <div class="hidden md:block p-4 md:p-6 bg-white border-t border-zinc-50 shrink-0">
+                            <button onclick="location.href='index.html#contact'" class="w-full py-4 bg-black text-white font-orbitron font-black text-[10px] tracking-widest rounded-sm hover:bg-cyan-600 transition-all uppercase shadow-lg shadow-black/10">
+                                Contact Us
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/product.js"></script>
+    <script>
+        // --- Data Definitions ---
+        if (typeof product === 'undefined') {
+            window.category = [
+                {"name": "living", "content": "리빙 / 라이프스타일"},
+                {"name": "child-edu", "content": "유아 / 교육"}
+            ];
+            window.product = [
+                { "name": "[정품] 글리너 수동 보풀제거기", "imageUrl": "resources/product/living/글리너.png", "category": "living", "companyName": "Gleener", "description": "섬유 전문가들이 추천하는 원조 보풀 제거기 글리너입니다. 전지가 필요 없는 수동 방식으로 옷감 손상을 최소화하면서 다양한 소재의 보풀을 완벽하게 제거합니다. 교체 가능한 3가지 헤드로 캐시미어부터 두꺼운 니트까지 모두 케어 가능합니다."},
+                { "name": "에어로켓", "imageUrl": "resources/product/child-edu/네셔널지오그래픽-에어로켓.jpg", "category": "child-edu", "companyName": "NEMONIC", "description": "공기압을 이용해 로켓을 발사하는 과학 완구입니다. 각도 조절과 발사 강도에 따른 물리 법칙을 자연스럽게 습득할 수 있는 에듀테인먼트 제품입니다."}
+            ];
+        }
+
+        let currentProductIndex = -1;
+
+        // --- Render Logic ---
+        function renderProducts() {
+            const container = document.getElementById('dynamic-products-container');
+            if (!container) return;
+
+            let finalHtml = '';
+
+            category.forEach(cat => {
+                const filteredProducts = product.filter(p => p.category === cat.name);
+                
+                if (filteredProducts.length > 0) {
+                    let sectionHtml = `
+                        <div class="mb-32">
+                            <div class="flex justify-between items-end mb-16 border-b border-zinc-100 pb-8">
+                                <div class="space-y-2">
+                                    <h3 class="text-3xl font-black text-black tracking-tight">${cat.content}</h3>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-10">
+                    `;
+
+                    filteredProducts.forEach(prod => {
+                        const globalIndex = product.indexOf(prod);
+                        sectionHtml += `
+                            <div class="product-card group cursor-pointer" onclick="openProductModal(${globalIndex})">
+                                <div class="aspect-[3/4] overflow-hidden bg-zinc-50 rounded-2xl mb-6 shadow-sm border border-zinc-100">
+                                    <img src="${prod.imageUrl}" class="w-full h-full object-cover" alt="${prod.name}" onerror="this.src='resources/common/error-img.png?w=600&h=800&fit=crop?w=600&h=800&fit=crop'">
+                                </div>
+                                <div class="space-y-2 px-1 text-left">
+                                    <p class="text-[10px] font-bold text-cyan-600 uppercase tracking-widest font-orbitron">${prod.companyName || 'UNX PARTNER'}</p>
+                                    <h4 class="text-base font-bold text-zinc-900 leading-tight group-hover:text-cyan-600 transition-colors break-keep">${prod.name}</h4>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    sectionHtml += `
+                            </div>
+                        </div>
+                    `;
+                    finalHtml += sectionHtml;
+                }
+            });
+
+            container.innerHTML = finalHtml;
+        }
+
+        // --- Modal Logic ---
+        function openProductModal(index) {
+            currentProductIndex = index;
+            updateModalContent();
+            const modal = document.getElementById('product-modal');
+            if(modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            if(modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function updateModalContent() {
+            const p = product[currentProductIndex];
+            if (!p) return;
+
+            const modalImg = document.getElementById('modal-product-img');
+            const modalCompTag = document.getElementById('modal-company-name-tag');
+            const modalProdName = document.getElementById('modal-product-name');
+            const modalDescText = document.getElementById('modal-description-text');
+            const modalHashtags = document.getElementById('modal-hashtags');
+
+            if(modalImg) modalImg.src = p.imageUrl;
+            if(modalCompTag) modalCompTag.innerText = p.companyName || 'UNX PARTNER';
+            if(modalProdName) modalProdName.innerText = p.name;
+            
+            // Description Logic
+            const desc = p.description || "해당 제품에 대한 상세 설명이 곧 업데이트될 예정입니다.";
+            
+            if (window.innerWidth <= 768) {
+                if(modalDescText) {
+                    modalDescText.classList.remove('hidden');
+                    modalDescText.innerText = desc;
+                }
+                if(modalHashtags) modalHashtags.classList.add('hidden');
+            } else {
+                if(modalDescText) {
+                    modalDescText.classList.remove('hidden');
+                    modalDescText.innerText = desc;
+                }
+                if(modalHashtags) modalHashtags.classList.add('hidden');
+            }
+
+            // Navigation Button Visibility
+            const prevBtn = document.getElementById('modal-prev-btn');
+            const nextBtn = document.getElementById('modal-next-btn');
+            if(prevBtn) prevBtn.style.display = (currentProductIndex === 0) ? 'none' : 'block';
+            if(nextBtn) nextBtn.style.display = (currentProductIndex === product.length - 1) ? 'none' : 'block';
+        }
+
+        function changeProduct(delta) {
+            const nextIndex = currentProductIndex + delta;
+            if (nextIndex >= 0 && nextIndex < product.length) {
+                currentProductIndex = nextIndex;
+                updateModalContent();
+            }
+        }
+
+        // --- Standard Navbar UI Logic ---
+        const navbar = document.getElementById('navbar');
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                if(navbar) {
+                    navbar.classList.add('py-4', 'glass', 'shadow-sm');
+                    navbar.classList.remove('py-6', 'md:py-8', 'bg-transparent');
+                }
+            } else {
+                if(navbar) {
+                    navbar.classList.remove('py-4', 'glass', 'shadow-sm');
+                    navbar.classList.add('py-6', 'md:py-8', 'bg-transparent');
+                }
+            }
+        });
+        
+        const toggleMobileMenu = (forceClose = false) => {
+            if(!mobileMenu) return;
+            if (forceClose) mobileMenu.classList.remove('active');
+            else mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        };
+
+        if(menuBtn) menuBtn.addEventListener('click', () => toggleMobileMenu());
+        if(closeMenuBtn) closeMenuBtn.addEventListener('click', () => toggleMobileMenu(true));
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => toggleMobileMenu(true));
+        });
+
+        // Initialize Rendering
+        renderProducts();
+    </script>
+</body>
+</html>
