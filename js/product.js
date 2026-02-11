@@ -1,8 +1,8 @@
         const category = [
+            {"name": "child-edu", "content": "유아 / 교육"},
             {"name": "living", "content": "리빙 / 라이프스타일"},
             {"name": "home-appliance", "content": "가전"},
-            {"name": "food", "content": "식품"},
-            {"name": "child-edu", "content": "유아 / 교육"}
+            {"name": "food", "content": "식품"}
         ];
 
         const product = [
